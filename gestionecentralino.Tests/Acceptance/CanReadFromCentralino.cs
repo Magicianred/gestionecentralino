@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using gestionecentralino.Core;
-using gestionecentralino.Tests.Fake.Centralino;
+using gestionecentralino.Fake.Fake.Centralino;
 using LanguageExt.UnitTesting;
 using Xunit;
 using static LanguageExt.Prelude;
@@ -20,24 +20,19 @@ namespace gestionecentralino.Tests.Acceptance
         private readonly CentralinoMockServer _mockServer = new CentralinoMockServer(Host, Port, _serverSourceFile);
 
         [Fact]
-        public async Task Test()
+        public async Task GIVEN_ARunningCentralinoServer_ICan_ReadAllTheLines()
         {
-            Task<OpenCentralinoMock> centralino = _mockServer.StartServer();
+            using Task<OpenCentralinoMock> centralino = _mockServer.StartServer();
 
-            try
+            var reader = CentralinoReader.Of(
+                new CentralinoConfiguration(Host, Port, "SMDR", "SMDR"));
+            reader.ShouldBeRight(async centralinoReader =>
             {
-                var reader = CentralinoReader.Of(
-                    new CentralinoConfiguration(Host, Port, "SMDR", "SMDR"));
-                reader.ShouldBeRight(async centralinoReader =>
-                {
-                    var actualLines = await centralinoReader.ReadAllLines();
-                    Assert.Equal(CentralinoLines.Parse(_expectedLines), actualLines);
-                });
-            }
-            finally
-            {
-                (await centralino).Dispose();
-            }
+                var actualLines = await centralinoReader.ReadAllLines();
+                Assert.Equal(CentralinoLines.Parse(_expectedLines), actualLines);
+            });
+                
+            await centralino;
         }
     }
 }

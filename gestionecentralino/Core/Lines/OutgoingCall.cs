@@ -9,6 +9,7 @@ namespace gestionecentralino.Core.Lines
         public CallData CallData { get; }
 
         public OutgoingNumber ExternalNumber { get; }
+        public ITargetNumber TargetNumber => ExternalNumber;
 
         public OutgoingCall(
             DateTime dateTime,
@@ -24,6 +25,10 @@ namespace gestionecentralino.Core.Lines
         }
 
         public LineTypeEnum LineType => LineTypeEnum.Call;
+        public void Apply(ICentralinoLineConsumer consumer)
+        {
+            consumer.Read(this);
+        }
 
         protected bool Equals(OutgoingCall other)
         {

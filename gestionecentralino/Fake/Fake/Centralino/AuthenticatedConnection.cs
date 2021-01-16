@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace gestionecentralino.Tests.Fake.Centralino
+namespace gestionecentralino.Fake.Fake.Centralino
 {
     public class AuthenticatedConnection
     {

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace gestionecentralino.Tests.Fake.Centralino
+namespace gestionecentralino.Fake.Fake.Centralino
 {
-    class CentralinoMockServer
+    public class CentralinoMockServer
     {
         private readonly string _host;
         private readonly int _port;

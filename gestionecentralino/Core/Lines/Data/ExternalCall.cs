@@ -2,16 +2,16 @@
 {
     public class ExternalCall: ICallLine
     {
-        private readonly ICallLine _call;
+        public ICallLine Call { get; }
 
         public ExternalCall(ICallLine call)
         {
-            _call = call;
+            Call = call;
         }
 
         protected bool Equals(ExternalCall other)
         {
-            return Equals(_call, other._call);
+            return Equals(Call, other.Call);
         }
 
         public override bool Equals(object obj)
@@ -24,9 +24,16 @@
 
         public override int GetHashCode()
         {
-            return (_call != null ? _call.GetHashCode() : 0);
+            return (Call != null ? Call.GetHashCode() : 0);
         }
 
-        public LineTypeEnum LineType => _call.LineType;
+        public LineTypeEnum LineType => Call.LineType;
+        public void Apply(ICentralinoLineConsumer consumer)
+        {
+            consumer.Read(this);
+        }
+
+        public ITargetNumber TargetNumber => Call.TargetNumber;
+        public CallData CallData => Call.CallData;
     }
 }

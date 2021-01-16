@@ -3,24 +3,34 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gestionecentralino", "gestionecentralino\gestionecentralino.csproj", "{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gestionecentralino", "gestionecentralino\gestionecentralino.csproj", "{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gestionecentralino.Tests", "gestionecentralino.Tests\gestionecentralino.Tests.csproj", "{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gestionecentralino.Tests", "gestionecentralino.Tests\gestionecentralino.Tests.csproj", "{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Debug|x86.ActiveCfg = Debug|x86
+		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Debug|x86.Build.0 = Debug|x86
 		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Release|x86.ActiveCfg = Release|x86
+		{60E002C4-5BDE-44E6-A95F-5CDCBDAE39E4}.Release|x86.Build.0 = Release|x86
 		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Debug|x86.ActiveCfg = Debug|x86
+		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Debug|x86.Build.0 = Debug|x86
 		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Release|x86.ActiveCfg = Release|x86
+		{0EDD1873-BA05-4523-BCCB-05D0D6ADF3B5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

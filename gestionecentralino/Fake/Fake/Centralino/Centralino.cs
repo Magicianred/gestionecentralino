@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Text;
 using gestionecentralino.Core;
 
-namespace gestionecentralino.Tests.Fake.Centralino
+namespace gestionecentralino.Fake.Fake.Centralino
 {
     public class Centralino: IDisposable
     {

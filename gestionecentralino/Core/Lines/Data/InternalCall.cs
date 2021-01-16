@@ -10,6 +10,10 @@
         }
 
         public LineTypeEnum LineType => _call.LineType;
+        public void Apply(ICentralinoLineConsumer consumer)
+        {
+            consumer.Read(this);
+        }
 
         protected bool Equals(InternalCall other)
         {
@@ -28,5 +32,8 @@
         {
             return (_call != null ? _call.GetHashCode() : 0);
         }
+
+        public ITargetNumber TargetNumber => _call.TargetNumber;
+        public CallData CallData => _call.CallData;
     }
 }

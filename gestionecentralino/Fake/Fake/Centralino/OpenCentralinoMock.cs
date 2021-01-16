@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace gestionecentralino.Tests.Fake.Centralino
+namespace gestionecentralino.Fake.Fake.Centralino
 {
     public class OpenCentralinoMock: IDisposable
     {

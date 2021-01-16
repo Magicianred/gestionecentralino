@@ -10,5 +10,9 @@
         }
 
         public LineTypeEnum LineType => LineTypeEnum.Forward;
+        public void Apply(ICentralinoLineConsumer consumer)
+        {
+            consumer.Read(this);
+        }
     }
 }

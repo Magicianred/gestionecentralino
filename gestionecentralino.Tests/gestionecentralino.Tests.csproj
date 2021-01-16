@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,6 +43,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\gestionecentralino\gestionecentralino.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fake\Centralino\" />
   </ItemGroup>
 
 </Project>

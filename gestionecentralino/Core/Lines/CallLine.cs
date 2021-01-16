@@ -40,9 +40,9 @@ namespace gestionecentralino.Core.Lines
         {
             bool parsed = DateTime.TryParseExact(
                 valueStr,
-                "dd/MM/yy hh:mm",
+                "dd/MM/yy HH:mm",
                 CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
+                DateTimeStyles.AllowWhiteSpaces,
                 out var dateTimeValue);
 
             return parsed

@@ -65,9 +65,10 @@ namespace gestionecentralino.Tests.Unit
             };
 
         [Theory]
+        [InlineData("04/12/20 17:18    401 01 <I>3488677149        00:00'12 EU00000.00               ", LineTypeEnum.Call)]
         [InlineData("\f  Date     Time   Ext CO Dial Number          Duration Cost       Acc code   CD ", LineTypeEnum.Heading)]
         [InlineData("--------------------------------------------------------------------------------", LineTypeEnum.Intermission)]
-        [InlineData("07/12/20 11:00    401 05 <I>234               00:00'12 EU00000.00               ", LineTypeEnum.Call)]
+        [InlineData("04/12/20 16:00    401 05 <I>234               00:00'12 EU00000.00               ", LineTypeEnum.Call)]
         [InlineData("07/12/20 11:01    401 06 234                  00:00'13 EU00000.00               ", LineTypeEnum.Call)]
         [InlineData("07/12/20 11:22    401 05 <I>234               00:00'00 EU00000.00            NA ", LineTypeEnum.Call)]
         [InlineData("10/12/20 16:09    402    EXT401                                                 ", LineTypeEnum.Forward)]
