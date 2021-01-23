@@ -28,11 +28,13 @@ namespace gestionecentralino
             try
             {
                 var configuration = new CentralinoConfiguration("127.0.0.1", 2300, "SMDR", "SMDR");
+                configuration.DbConfiguration.ConnectionString =  @"Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True";
+
                 //var configuration = new CentralinoConfiguration("192.168.0.102", 2300, "SMDR", "SMDR");
                 var reader = CentralinoReader.Of(configuration);
 
                 reader.Match(
-                    centralinoReader => { ReadFromCentralinoAndWrite(centralinoReader, log); }, 
+                    centralinoReader => { ReadFromCentralinoAndWrite(centralinoReader, log, configuration); }, 
                     error => { log.Error($"There is an error in the configuration: {error.Message}"); });
             }
             catch (Exception e)
@@ -42,27 +44,40 @@ namespace gestionecentralino
             log.Info("Ending ####################################################################");
         }
 
-        private static void ReadFromCentralinoAndWrite(CentralinoReader centralinoReader, ILog log)
+        private static void ReadFromCentralinoAndWrite(CentralinoReader centralinoReader, ILog log, CentralinoConfiguration centralinoConfiguration)
         {
             try
             {
-                DbSerializer dbSerializer = new DbSerializer(@"Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True");
-
-                var task = centralinoReader.ReadLines(20);
-                task.Wait();
-
-                CentralinoLines allLines = task.Result;
-                foreach (var line in allLines.Lines)
-                {
-                    WriteInDb(line, dbSerializer, log);
-                }
-
-                dbSerializer.WriteAll();
+                var allLines = ReadFromCentralino(centralinoReader, log, centralinoConfiguration);
+                WriteIntoTheStorage(log, centralinoConfiguration, allLines);
             }
             catch (Exception e)
             {
                 log.Error($"Unexpected error: {e.Message}", e);
             }
+        }
+
+        private static void WriteIntoTheStorage(ILog log, CentralinoConfiguration centralinoConfiguration, CentralinoLines allLines)
+        {
+            log.Info($"Starting to write all lines on storage {centralinoConfiguration.DbConfiguration.ConnectionString}");
+            DbSerializer dbSerializer = new DbSerializer(centralinoConfiguration.DbConfiguration.ConnectionString);
+            foreach (var line in allLines.Lines)
+            {
+                WriteInDb(line, dbSerializer, log);
+            }
+
+            dbSerializer.WriteAll();
+            log.Info($"End of writing to the storage {centralinoConfiguration.DbConfiguration.ConnectionString}");
+        }
+
+        private static CentralinoLines ReadFromCentralino(CentralinoReader centralinoReader, ILog log, CentralinoConfiguration centralinoConfiguration)
+        {
+            log.Info($"Starting to read lines from centralino {centralinoConfiguration.Host}:{centralinoConfiguration.Port}");
+            var task = centralinoReader.ReadAllLines();
+            task.Wait();
+            CentralinoLines allLines = task.Result;
+            log.Info($"Read {allLines.Lines.Length} lines from centralino {centralinoConfiguration.Host}:{centralinoConfiguration.Port}");
+            return allLines;
         }
 
         private static void WriteInDb(Either<Seq<Error>, ICentralinoLine> line, DbSerializer dbSerializer, ILog log)
