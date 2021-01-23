@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using gestionecentralino.Core.Lines;
 using gestionecentralino.Core.Lines.Data;
@@ -108,7 +109,8 @@ namespace gestionecentralino.Db
 
         public void WriteAll(IEnumerable<ICentralinoLine> lines)
         {
-            foreach (ICentralinoLine centralinoLine in lines)
+            var centralinoLines = lines.ToArray();
+            foreach (ICentralinoLine centralinoLine in centralinoLines)
             {
                 Serialize(centralinoLine);
                 _log.Info($"Processed line {centralinoLine}");

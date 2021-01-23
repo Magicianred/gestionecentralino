@@ -19,9 +19,9 @@ namespace gestionecentralino.Core.Lines
                 var coCode = new CoCode(lineDto.CoCodeStr);
                 var cdCode = string.IsNullOrWhiteSpace(lineDto.CdCodeStr) ? None : Some(new CdCode(lineDto.CdCodeStr));
 
-                Validation<Error, DateTime> dateTimeValue = ReadDate(lineDto.DateTimeStr);
-                Validation<Error, Cost> costValue = ReadCost(lineDto.CostStr);
-                Validation<Error, Duration> durationValue = ReadDuration(lineDto.DurationStr);
+                Validation<Error, DateTime> dateTimeValue = ReadDate(lineDto.DateTimeStr).MapFail(error => EnrichError(error, line));
+                Validation<Error, Cost> costValue = ReadCost(lineDto.CostStr).MapFail(error => EnrichError(error, line)); ;
+                Validation<Error, Duration> durationValue = ReadDuration(lineDto.DurationStr).MapFail(error => EnrichError(error, line)); ;
 
                 return (dateTimeValue, costValue, durationValue).Apply((dateTime, cost, duration) => 
                     (ICentralinoLine)externalNumber
@@ -35,7 +35,9 @@ namespace gestionecentralino.Core.Lines
             });
         }
 
-        
+        private static Error EnrichError(Error error, string line) => 
+            Error.New($"{error.Message}. On line: {line}");
+
         private static Validation<Error, DateTime> ReadDate(string valueStr)
         {
             bool parsed = DateTime.TryParseExact(
