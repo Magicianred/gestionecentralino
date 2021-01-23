@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="log4net.config" />
+    <None Remove="Resources\Config.xml" />
     <None Remove="Resources\costa_centralino_mock_source.txt" />
     <None Remove="Resources\darfo_centralino_mock_source.txt" />
     <None Remove="Resources\sample_centralino_mock_source.txt" />
@@ -20,6 +21,9 @@
 
   <ItemGroup>
     <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\costa_centralino_mock_source.txt">

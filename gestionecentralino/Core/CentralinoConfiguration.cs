@@ -1,7 +1,20 @@
-﻿namespace gestionecentralino.Core
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Xml.Serialization;
+using LanguageExt;
+using static LanguageExt.Prelude;
+
+namespace gestionecentralino.Core
 {
     public class CentralinoConfiguration
     {
+        private CentralinoConfiguration() : this("127.0.0.1", 2300, "SMDR", "SMDR")
+        {
+            
+        }
+
         public CentralinoConfiguration(string host, int port, string username, string password)
         {
             Host = host;
@@ -9,6 +22,7 @@
             Username = username;
             Password = password;
             DbConfiguration = new DbConfiguration();
+            Show = false;
         }
 
         public string Host { get; set; }
@@ -17,5 +31,77 @@
         public string Password { get; set; }
 
         public DbConfiguration DbConfiguration { get; set; }
+
+        private static CentralinoConfiguration FromXml(string filePath)
+        {
+            try
+            {
+                var reader = new XmlSerializer(typeof(CentralinoConfiguration));
+                using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                using var streamreader = new StreamReader(stream);
+                var config = (CentralinoConfiguration)reader.Deserialize(streamreader);
+                return config;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"The configuration file is invalid. Reason:");
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public static Option<CentralinoConfiguration> FromCommanLine(string[] cmdArgs)
+        {
+            try
+            {
+                var cfg = new CentralinoConfiguration();
+                var options = new OptionSet()
+                    .Add("cfg|config-file=", "nome del file di configurazione in cui specificare tutte le opzioni di questo help", v => { cfg = FromXml(v); })
+
+                    .Add("h|hostname=", $"hostname del centralino server. Default {cfg.Host}", v => cfg.Host = v)
+                    .Add("p|port=", $"porta del centralino server. Default {cfg.Port}", v => cfg.Port = ToInt(v))
+                    .Add("u|username=", $"username. Default {cfg.Username}", v => cfg.Username = v)
+                    .Add("ps|password=", $"password. Default {cfg.Password}", v => cfg.Password = v)
+                    ;
+
+                options.Add("h|help", "Mostra help", v =>
+                {
+                    cfg.Show = true;
+                    options.WriteOptionDescriptions(Console.Out);
+                });
+                options.Add("v|version", "Stampa il numero di versione", v =>
+                {
+                    cfg.Show = true;
+                    Console.Out.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
+                });
+
+                options.Parse(cmdArgs);
+
+                return cfg.Show
+                    ? None
+                    : Some(cfg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return None;
+            }
+        }
+
+        public bool Show { get; set; }
+
+        private static bool IsPresent(string v) => v != null;
+
+        private static int ToInt(string v) => Int32.Parse(v);
+
+        public override string ToString() => ToStringProperties(this);
+
+        private string ToStringProperties(object o, string tabs = "   ") =>
+            o.GetType()
+                .GetProperties()
+                .Aggregate("", (acc, prop) => $"{acc}\n{tabs}{prop.Name}: { (IsClass(prop) ? prop.PropertyType.Name + ToStringProperties(prop.GetValue(o), $"{tabs}   ") : prop.GetValue(o)) }");
+
+
+        private bool IsClass(PropertyInfo prop) => prop.PropertyType.IsClass && prop.PropertyType != typeof(string);
     }
 }

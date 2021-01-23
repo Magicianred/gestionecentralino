@@ -1,0 +1,9 @@
+﻿<CentralinoConfiguration>
+  <Host>192.168.0.102</Host>
+  <Port>2300</Port>
+  <Username>SMDR</Username>
+  <Password>SMDR</Password>
+  <DbConfiguration>
+    <ConnectionString>Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True</ConnectionString>
+  </DbConfiguration>
+</CentralinoConfiguration>

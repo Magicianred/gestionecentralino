@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using gestionecentralino.Core;
 using gestionecentralino.Core.Lines;
 using gestionecentralino.Db;
-using gestionecentralino.MockServer;
 using LanguageExt;
 using LanguageExt.Common;
 using log4net;
@@ -18,24 +13,13 @@ namespace gestionecentralino
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
-            ILog log = LogManager.GetLogger(typeof(Program));
-
+            var log = ConfigureLogging();
             log.Info("Starting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             try
             {
-                var configuration = new CentralinoConfiguration("127.0.0.1", 2300, "SMDR", "SMDR");
-                configuration.DbConfiguration.ConnectionString =  @"Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True";
-
-                //var configuration = new CentralinoConfiguration("192.168.0.102", 2300, "SMDR", "SMDR");
-                var reader = CentralinoReader.Of(configuration);
-
-                reader.Match(
-                    centralinoReader => { ReadFromCentralinoAndWrite(centralinoReader, log, configuration); }, 
-                    error => { log.Error($"There is an error in the configuration: {error.Message}"); });
+                FromConfigReadCentralinoAndWriteInStorage(args, log);
             }
             catch (Exception e)
             {
@@ -44,7 +28,28 @@ namespace gestionecentralino
             log.Info("Ending ####################################################################");
         }
 
-        private static void ReadFromCentralinoAndWrite(CentralinoReader centralinoReader, ILog log, CentralinoConfiguration centralinoConfiguration)
+        private static void FromConfigReadCentralinoAndWriteInStorage(string[] args, ILog log)
+        {
+            var configurationMaybe = CentralinoConfiguration
+                .FromCommanLine(args)
+                .ToEither(Error.New("Help has been shown"));
+            var centralinoReaderMaybe = configurationMaybe.Bind(CentralinoReader.Of);
+
+            (from configuration in configurationMaybe
+             from centralinoReader in centralinoReaderMaybe
+             select ReadFromCentralinoAndWrite(centralinoReader, log, configuration))
+                .IfLeft(error => log.Error($"There is an error in the configuration: {error.Message}"));
+        }
+
+        private static ILog ConfigureLogging()
+        {
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+            ILog log = LogManager.GetLogger(typeof(Program));
+            return log;
+        }
+
+        private static Unit ReadFromCentralinoAndWrite(CentralinoReader centralinoReader, ILog log, CentralinoConfiguration centralinoConfiguration)
         {
             try
             {
@@ -55,6 +60,8 @@ namespace gestionecentralino
             {
                 log.Error($"Unexpected error: {e.Message}", e);
             }
+
+            return Unit.Default;
         }
 
         private static void WriteIntoTheStorage(ILog log, CentralinoConfiguration centralinoConfiguration, CentralinoLines allLines)
