@@ -80,7 +80,7 @@ namespace gestionecentralino
 
             (IEnumerable<Seq<Error>> errors, IEnumerable<ICentralinoLine> lines) = allLines.Lines.Partition();
 
-            DbSerializer dbSerializer = new DbSerializer(centralinoConfiguration.DbConfiguration.ConnectionString);
+            DbSerializer dbSerializer = new DbSerializer(centralinoConfiguration.DbConfiguration);
             dbSerializer.WriteAll(lines);
 
             foreach (Seq<Error> error in errors)

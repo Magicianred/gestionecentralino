@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using gestionecentralino.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace gestionecentralino.Db
 {
     public class CentralinoDbContext: DbContext
     {
-        private readonly string _connectionString;
+        private readonly DbConfiguration _configuration;
 
         private DbSet<PhoneCallLine> Calls { get; set; }
 
@@ -14,14 +15,14 @@ namespace gestionecentralino.Db
         {
         }
 
-        public CentralinoDbContext(string connectionString)
+        public CentralinoDbContext(DbConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer(_configuration.ConnectionString);
         }
     }
 }

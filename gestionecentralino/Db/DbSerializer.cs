@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using gestionecentralino.Core;
 using gestionecentralino.Core.Lines;
 using gestionecentralino.Core.Lines.Data;
 using LanguageExt;
@@ -15,9 +16,9 @@ namespace gestionecentralino.Db
         private readonly ILog _log;
         private readonly CentralinoDbContext _db;
 
-        public DbSerializer(string connectionString)
+        public DbSerializer(DbConfiguration configuration)
         {
-            _db = new CentralinoDbContext(connectionString);
+            _db = new CentralinoDbContext(configuration.ConnectionString);
             _log = LogManager.GetLogger(GetType());
         }
 
