@@ -14,6 +14,8 @@
             return Value == other.Value;
         }
 
+        public override string ToString() => $"{Value}";
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;

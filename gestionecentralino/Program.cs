@@ -24,29 +24,31 @@ namespace gestionecentralino
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             ILog log = LogManager.GetLogger(typeof(Program));
 
+            log.Info("Starting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             try
             {
-                //var configuration = new CentralinoConfiguration("127.0.0.1", 2300, "SMDR", "SMDR");
-                var configuration = new CentralinoConfiguration("192.168.0.102", 2300, "SMDR", "SMDR");
+                var configuration = new CentralinoConfiguration("127.0.0.1", 2300, "SMDR", "SMDR");
+                //var configuration = new CentralinoConfiguration("192.168.0.102", 2300, "SMDR", "SMDR");
                 var reader = CentralinoReader.Of(configuration);
 
                 reader.Match(
-                    async centralinoReader => { await ReadFromCentralinoAndWrite(centralinoReader, log); }, 
+                    centralinoReader => { ReadFromCentralinoAndWrite(centralinoReader, log); }, 
                     error => { log.Error($"There is an error in the configuration: {error.Message}"); });
             }
             catch (Exception e)
             {
                 log.Error($"Unexpected error: {e.Message}", e);
             }
+            log.Info("Ending ####################################################################");
         }
 
-        private static async Task ReadFromCentralinoAndWrite(CentralinoReader centralinoReader, ILog log)
+        private static void ReadFromCentralinoAndWrite(CentralinoReader centralinoReader, ILog log)
         {
             try
             {
                 DbSerializer dbSerializer = new DbSerializer(@"Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True");
 
-                var task = centralinoReader.ReadAllLines();
+                var task = centralinoReader.ReadLines(20);
                 task.Wait();
 
                 CentralinoLines allLines = task.Result;

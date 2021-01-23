@@ -15,6 +15,11 @@
             consumer.Read(this);
         }
 
+        public override string ToString()
+        {
+            return $"{nameof(LineType)}: {LineType}, {nameof(_inputLine)}: {_inputLine}";
+        }
+
         protected bool Equals(HeadingLine other)
         {
             return _inputLine == other._inputLine;

@@ -35,6 +35,11 @@ namespace gestionecentralino.Core.Lines
             Cost = cost;
         }
 
+        public override string ToString()
+        {
+            return $"{nameof(DateTime)}: {DateTime}, {nameof(InternalNumber)}: {InternalNumber}, {nameof(CoCode)}: {CoCode}, {nameof(CdCode)}: {CdCode}, {nameof(Duration)}: {Duration}, {nameof(Cost)}: {Cost}";
+        }
+
         protected bool Equals(CallData other)
         {
             return DateTime.Equals(other.DateTime) && Equals(InternalNumber, other.InternalNumber) && Equals(CoCode, other.CoCode) && CdCode.Equals(other.CdCode) && Equals(Duration, other.Duration) && Equals(Cost, other.Cost);

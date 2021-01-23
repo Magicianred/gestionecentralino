@@ -32,5 +32,10 @@
         {
             consumer.Read(this);
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(LineType)}: {LineType}, {nameof(_line)}: {_line}";
+        }
     }
 }

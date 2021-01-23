@@ -18,6 +18,8 @@
             callData.Duration,
             callData.Cost));
 
+        public override string ToString() => $"{GetType().Name}: {Value}";
+
         protected bool Equals(OutgoingNumber other)
         {
             return Value == other.Value;

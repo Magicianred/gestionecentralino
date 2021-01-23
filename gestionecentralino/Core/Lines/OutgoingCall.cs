@@ -30,6 +30,8 @@ namespace gestionecentralino.Core.Lines
             consumer.Read(this);
         }
 
+        public override string ToString() => $"{GetType().Name}. {CallData}, {nameof(TargetNumber)}: {TargetNumber}";
+
         protected bool Equals(OutgoingCall other)
         {
             return Equals(CallData, other.CallData) && Equals(ExternalNumber, other.ExternalNumber);

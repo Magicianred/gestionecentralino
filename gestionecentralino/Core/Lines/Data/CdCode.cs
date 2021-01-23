@@ -9,6 +9,8 @@
             Value = value;
         }
 
+        public override string ToString() => $"{Value}";
+
         protected bool Equals(CdCode other)
         {
             return Value == other.Value;

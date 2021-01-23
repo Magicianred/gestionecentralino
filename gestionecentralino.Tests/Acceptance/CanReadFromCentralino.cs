@@ -27,7 +27,7 @@ namespace gestionecentralino.Tests.Acceptance
                 new CentralinoConfiguration(Host, port, "SMDR", "SMDR"));
             reader.ShouldBeRight(centralinoReader =>
             {;
-                var readLinesTask = centralinoReader.ReadLines(); readLinesTask.Wait();
+                var readLinesTask = centralinoReader.ReadAllLines(); readLinesTask.Wait();
                 var actualLines = readLinesTask.Result;
                 Assert.Equal(CentralinoLines.Parse(_expectedLines), actualLines);
             });

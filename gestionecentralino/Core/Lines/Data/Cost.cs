@@ -9,6 +9,8 @@
             Value = value;
         }
 
+        public override string ToString() => $"{Value}";
+
         protected bool Equals(Cost other)
         {
             return Equals(Value, other.Value);

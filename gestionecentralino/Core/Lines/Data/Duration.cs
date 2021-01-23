@@ -11,6 +11,8 @@ namespace gestionecentralino.Core.Lines.Data
             Value = value;
         }
 
+        public override string ToString() => $"{Value}";
+
         protected bool Equals(Duration other)
         {
             return Value.Equals(other.Value);

@@ -9,6 +9,8 @@
             Value = value;
         }
 
+        public override string ToString() => $"{GetType().Name}: {Value}";
+
         public ICallLine CreateCall(CallData callData) => CallSource.CreateCall(this, new IncomingCall(
             callData.DateTime,
             callData.InternalNumber,

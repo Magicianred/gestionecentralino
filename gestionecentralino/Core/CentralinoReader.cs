@@ -28,7 +28,7 @@ namespace gestionecentralino.Core
 
         public async Task<CentralinoLines> ReadAllLines() => await ReadLines(0);
 
-        public async Task<CentralinoLines> ReadLines(int linesMaxLimit = 0)
+        public async Task<CentralinoLines> ReadLines(int linesMaxLimit)
         {
             using var centralinoCommunication = await CentralinoChannel.Start(_host);
 
