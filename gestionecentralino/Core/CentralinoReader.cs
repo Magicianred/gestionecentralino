@@ -28,11 +28,10 @@ namespace gestionecentralino.Core
 
         public async Task<CentralinoLines> ReadAllLines()
         {
-            using (var centralinoCommunication = await CentralinoChannel.Start(_host))
-            {
-                AuthenticatedChannel authenticatedChannel = await centralinoCommunication.Authenticate(_account.Username, _account.Password);
-                return await authenticatedChannel.ReadLines();
-            }
+            using var centralinoCommunication = await CentralinoChannel.Start(_host);
+
+            AuthenticatedChannel authenticatedChannel = await centralinoCommunication.Authenticate(_account.Username, _account.Password);
+            return await authenticatedChannel.ReadLines();
         }
     }
 }

@@ -4,15 +4,24 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="log4net.config" />
     <None Remove="Resources\costa_centralino_mock_source.txt" />
     <None Remove="Resources\darfo_centralino_mock_source.txt" />
     <None Remove="Resources\sample_centralino_mock_source.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs" Link="SolutionInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\costa_centralino_mock_source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -36,6 +45,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\gestionecentralino.MockServer\gestionecentralino.MockServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="log4net.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Program.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>

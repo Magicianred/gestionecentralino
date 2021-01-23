@@ -2,12 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\costa_centralino_mock_source.txt" />
     <None Remove="Resources\darfo_centralino_mock_source.txt" />
     <None Remove="Resources\sample_centralino_mock_source.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs" Link="SolutionInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

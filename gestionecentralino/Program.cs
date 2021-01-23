@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using gestionecentralino.Core;
@@ -10,6 +12,7 @@ using gestionecentralino.MockServer;
 using LanguageExt;
 using LanguageExt.Common;
 using log4net;
+using log4net.Config;
 
 namespace gestionecentralino
 {
@@ -17,40 +20,43 @@ namespace gestionecentralino
     {
         public static async Task Main(string[] args)
         {
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             ILog log = LogManager.GetLogger(typeof(Program));
 
             //var configuration = new CentralinoConfiguration("192.168.0.102", 2300, "SMDR", "SMDR");
-            var configuration = new CentralinoConfiguration("127.0.0.1", 2300, "SMDR", "SMDR")
+            try
             {
-                MockServerSourceFile = @"Resources\costa_centralino_mock_source.txt"
-            };
-            //using Task<OpenCentralinoMock> mock = StartMockServer(configuration);
+                var configuration = new CentralinoConfiguration("127.0.0.1", 2300, "SMDR", "SMDR");
 
-            var reader = CentralinoReader.Of(configuration);
-            reader.Match(centralinoReader =>
-            {
-                DbSerializer dbSerializer = new DbSerializer(@"Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True");
-                
-                //CentralinoLines allLines = await centralinoReader.ReadAllLines();
-                CentralinoLines allLines = CentralinoLines.Parse(File.ReadAllLines(configuration.MockServerSourceFile));
-                foreach (var line in allLines.Lines)
+                var reader = CentralinoReader.Of(configuration);
+                reader.Match(async centralinoReader =>
                 {
-                    WriteInDb(line, dbSerializer, log);
-                }
-                dbSerializer.WriteAll();
+                    try
+                    {
+                        DbSerializer dbSerializer = new DbSerializer(@"Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True");
 
-            }, error =>
+                        CentralinoLines allLines = await centralinoReader.ReadAllLines();
+                        foreach (var line in allLines.Lines)
+                        {
+                            WriteInDb(line, dbSerializer, log);
+                        }
+                        dbSerializer.WriteAll();
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error($"Unexpected error: {e.Message}", e);
+                    }
+
+                }, error =>
+                {
+                    log.Error($"There is an error in the configuration: {error.Message}");
+                });
+            }
+            catch (Exception e)
             {
-                log.Error($"There is an error in the configuration: {error.Message}");
-            });
-
-            //await mock;
-        }
-
-        private static async Task<OpenCentralinoMock> StartMockServer(CentralinoConfiguration configuration)
-        {
-            CentralinoMockServer mockServer = new CentralinoMockServer(configuration.Host, configuration.Port, configuration.MockServerSourceFile);
-            return await mockServer.StartServer();
+                log.Error($"Unexpected error: {e.Message}", e);
+            }
         }
 
         private static void WriteInDb(Either<Seq<Error>, ICentralinoLine> line, DbSerializer dbSerializer, ILog log)
