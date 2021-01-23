@@ -2,6 +2,24 @@
 {
     public class ForwardLine : ICentralinoLine
     {
+        protected bool Equals(ForwardLine other)
+        {
+            return _line == other._line;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((ForwardLine) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (_line != null ? _line.GetHashCode() : 0);
+        }
+
         private readonly string _line;
 
         public ForwardLine(string line)

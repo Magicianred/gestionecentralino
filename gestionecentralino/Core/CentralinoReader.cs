@@ -26,12 +26,14 @@ namespace gestionecentralino.Core
                     centralinoHost, 
                     new UserAccount(config.Username, config.Password)));
 
-        public async Task<CentralinoLines> ReadAllLines()
+        public async Task<CentralinoLines> ReadAllLines() => await ReadLines(0);
+
+        public async Task<CentralinoLines> ReadLines(int linesMaxLimit = 0)
         {
             using var centralinoCommunication = await CentralinoChannel.Start(_host);
 
             AuthenticatedChannel authenticatedChannel = await centralinoCommunication.Authenticate(_account.Username, _account.Password);
-            return await authenticatedChannel.ReadLines();
+            return await authenticatedChannel.ReadLines(linesMaxLimit);
         }
     }
 }

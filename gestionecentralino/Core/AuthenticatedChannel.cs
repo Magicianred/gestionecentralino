@@ -17,15 +17,17 @@ namespace gestionecentralino.Core
             _streamReader = new StreamReader(stream);
         }
 
-        public async Task<CentralinoLines> ReadLines()
+        public async Task<CentralinoLines> ReadLines(int linesMaxLimit = 0)
         {
             List<string> lines = new List<string>();
+            int linesCount = 0;
             string line = null;
             do
             {
                 AddNotNullLine(line, lines);
                 line = await ReadALineWithTimeout(timeout: 1000);
-            } while (!TimedOut(line));
+                linesCount++;
+            } while (!TimedOut(line) && (linesCount <= linesMaxLimit || linesMaxLimit == 0));
 
             return CentralinoLines.Parse(lines.ToArray());
         }
