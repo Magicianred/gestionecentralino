@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "gestionecentralino": {
+      "commandName": "Project",
+      "commandLineArgs": "--cfg Resources\\Config.xml"
+    }
+  }
+}

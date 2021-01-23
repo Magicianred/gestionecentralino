@@ -15,17 +15,24 @@ namespace gestionecentralino
     {
         public static void Main(string[] args)
         {
-            var log = ConfigureLogging();
-            log.Info("Starting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            try
+            if (args.Length > 0)
             {
-                FromConfigReadCentralinoAndWriteInStorage(args, log);
+                var log = ConfigureLogging();
+                log.Info("Starting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                try
+                {
+                    FromConfigReadCentralinoAndWriteInStorage(args, log);
+                }
+                catch (Exception e)
+                {
+                    log.Error($"Unexpected error: {e.Message}", e);
+                }
+                log.Info("Ending ####################################################################");
             }
-            catch (Exception e)
+            else
             {
-                log.Error($"Unexpected error: {e.Message}", e);
+                CentralinoConfiguration.FromCommanLine(new[] { "--help" });
             }
-            log.Info("Ending ####################################################################");
         }
 
         private static void FromConfigReadCentralinoAndWriteInStorage(string[] args, ILog log)
@@ -53,6 +60,8 @@ namespace gestionecentralino
         {
             try
             {
+                log.Info($"Configuration: {centralinoConfiguration.ToString()}");
+
                 var allLines = ReadFromCentralino(centralinoReader, log, centralinoConfiguration);
                 WriteIntoTheStorage(log, centralinoConfiguration, allLines);
             }

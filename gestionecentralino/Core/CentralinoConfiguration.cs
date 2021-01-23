@@ -58,10 +58,10 @@ namespace gestionecentralino.Core
                 var options = new OptionSet()
                     .Add("cfg|config-file=", "nome del file di configurazione in cui specificare tutte le opzioni di questo help", v => { cfg = FromXml(v); })
 
-                    .Add("h|hostname=", $"hostname del centralino server. Default {cfg.Host}", v => cfg.Host = v)
-                    .Add("p|port=", $"porta del centralino server. Default {cfg.Port}", v => cfg.Port = ToInt(v))
+                    .Add("H|hostname=", $"hostname del centralino server. Default {cfg.Host}", v => cfg.Host = v)
+                    .Add("P|port=", $"porta del centralino server. Default {cfg.Port}", v => cfg.Port = ToInt(v))
                     .Add("u|username=", $"username. Default {cfg.Username}", v => cfg.Username = v)
-                    .Add("ps|password=", $"password. Default {cfg.Password}", v => cfg.Password = v)
+                    .Add("p|password=", $"password. Default {cfg.Password}", v => cfg.Password = v)
                     ;
 
                 options.Add("h|help", "Mostra help", v =>
