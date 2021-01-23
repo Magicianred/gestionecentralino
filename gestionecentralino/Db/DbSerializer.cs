@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using gestionecentralino.Core.Lines;
 using gestionecentralino.Core.Lines.Data;
@@ -103,6 +104,16 @@ namespace gestionecentralino.Db
             _db.Database.Migrate();
             _db.SaveChanges();
             _db.Dispose();
+        }
+
+        public void WriteAll(IEnumerable<ICentralinoLine> lines)
+        {
+            foreach (ICentralinoLine centralinoLine in lines)
+            {
+                Serialize(centralinoLine);
+                _log.Info($"Processed line {centralinoLine}");
+            }
+            WriteAll();
         }
     }
 }
