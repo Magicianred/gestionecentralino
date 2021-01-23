@@ -45,8 +45,4 @@
     <ProjectReference Include="..\gestionecentralino\gestionecentralino.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fake\Centralino\" />
-  </ItemGroup>
-
 </Project>

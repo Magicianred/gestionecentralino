@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace gestionecentralino.Fake.Fake.Centralino
+namespace gestionecentralino.MockServer
 {
     public class CentralinoMockServer
     {
@@ -20,7 +20,7 @@ namespace gestionecentralino.Fake.Fake.Centralino
             var mockServer = OpenCentralinoMock.Open(_host, _port);
             return await Task.Run(() =>
             {
-                using (Centralino listener = mockServer.StartListening())
+                using (MockServer.Centralino listener = mockServer.StartListening())
                 {
                     listener
                         .WaitAuthentication()

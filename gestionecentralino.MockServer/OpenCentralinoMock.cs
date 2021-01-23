@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace gestionecentralino.Fake.Fake.Centralino
+namespace gestionecentralino.MockServer
 {
     public class OpenCentralinoMock: IDisposable
     {
@@ -21,10 +21,10 @@ namespace gestionecentralino.Fake.Fake.Centralino
             _socket = socket;
         }
 
-        public Centralino StartListening()
+        public MockServer.Centralino StartListening()
         {
             Socket listener = _socket.Accept();
-            return new Centralino(listener);
+            return new MockServer.Centralino(listener);
         }
 
         public void Dispose()

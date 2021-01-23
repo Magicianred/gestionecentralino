@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
-using gestionecentralino.Core;
 
-namespace gestionecentralino.Fake.Fake.Centralino
+namespace gestionecentralino.MockServer
 {
     public class Centralino: IDisposable
     {
@@ -28,7 +27,7 @@ namespace gestionecentralino.Fake.Fake.Centralino
 
         public void Send(string data)
         {
-            _listener.Send(Encode.Bytes(data));
+            _listener.Send((byte[]) Encode.Bytes(data));
         }
 
         public void Dispose()
@@ -46,12 +45,12 @@ namespace gestionecentralino.Fake.Fake.Centralino
 
         private void Send(char c)
         {
-            _listener.Send(Encode.Char(c));
+            _listener.Send((byte[]) Encode.Char(c));
         }
 
         public void SendLine(string data)
         {
-            Send(Encode.Line(data));
+            Send((string) Encode.Line(data));
         }
 
         private string WaitInputAndMirror()

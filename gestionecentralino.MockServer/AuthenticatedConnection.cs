@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace gestionecentralino.Fake.Fake.Centralino
+namespace gestionecentralino.MockServer
 {
     public class AuthenticatedConnection
     {
