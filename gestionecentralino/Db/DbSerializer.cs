@@ -92,7 +92,15 @@ namespace gestionecentralino.Db
         {
             Log(call);
             PhoneCallLine callLine = ToPhoneCallLine(call, incoming: incoming);
-            _db.Add(callLine);
+            bool lineAlreadyProcessed = _db.Calls.Any(call => callLine.Hash == call.Hash);
+            if (!lineAlreadyProcessed)
+            {
+                _db.Add(callLine);
+            }
+            else
+            {
+                _log.Warn($"Ignoring line beacause already processed {call.CallData.OriginalLine}");
+            }
         }
 
         private void Log(ICentralinoLine call)
@@ -132,13 +140,13 @@ namespace gestionecentralino.Db
         }
         public void WriteAll()
         {
-            _db.Migrate();
             _db.SaveChanges();
             _db.Dispose();
         }
 
         public void WriteAll(IEnumerable<ICentralinoLine> lines)
         {
+            _db.Migrate();
             var centralinoLines = lines.ToArray();
             foreach (ICentralinoLine centralinoLine in centralinoLines)
             {
