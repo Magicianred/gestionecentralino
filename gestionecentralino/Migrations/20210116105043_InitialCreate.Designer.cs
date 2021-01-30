@@ -9,7 +9,7 @@ using gestionecentralino.Db;
 
 namespace gestionecentralino.Migrations
 {
-    [DbContext(typeof(CentralinoDbContext))]
+    [DbContext(typeof(MySqlDbContext))]
     [Migration("20210116105043_InitialCreate")]
     partial class InitialCreate
     {

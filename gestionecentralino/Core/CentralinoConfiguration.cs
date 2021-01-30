@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using gestionecentralino.Db;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
@@ -62,6 +63,12 @@ namespace gestionecentralino.Core
                     .Add("P|port=", $"porta del centralino server. Default {cfg.Port}", v => cfg.Port = ToInt(v))
                     .Add("u|username=", $"username. Default {cfg.Username}", v => cfg.Username = v)
                     .Add("p|password=", $"password. Default {cfg.Password}", v => cfg.Password = v)
+
+                    .Add("db=", $"db to use. Choose between {DbEnum.MySql}|{DbEnum.SqlServer} .Default {cfg.DbConfiguration.Db}", v =>
+                    {
+                        Enum.TryParse(v, ignoreCase: true, out DbEnum dbType);
+                        cfg.DbConfiguration.Db = dbType;
+                    })
                     ;
 
                 options.Add("h|help", "Mostra help", v =>

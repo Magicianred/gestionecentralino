@@ -8,7 +8,7 @@ using gestionecentralino.Db;
 
 namespace gestionecentralino.Migrations
 {
-    [DbContext(typeof(CentralinoDbContext))]
+    [DbContext(typeof(MySqlDbContext))]
     partial class CentralinoDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
