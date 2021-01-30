@@ -1,11 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using gestionecentralino.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace gestionecentralino.Db
 {
-    public abstract class CentralinoDbContext : DbContext
+    public class CentralinoDbContext : DbContext
     {
-        public abstract DbSet<PhoneCallLine> Calls { get; set; }
+        private readonly DbConfiguration _configuration;
+        public DbSet<PhoneCallLine> Calls { get; set; }
 
         public CentralinoDbContext(): base() {}
+
+        public CentralinoDbContext(DbConfiguration configuration) : base()
+        {
+            _configuration = configuration;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            switch (_configuration.Db)
+            {
+                case DbEnum.SqlServer:
+                    optionsBuilder.UseSqlServer(_configuration.ConnectionString);
+                    break;
+
+                case DbEnum.MySql:
+                    optionsBuilder.UseMySQL(_configuration.ConnectionString);
+                    break;
+
+            }
+        }
     }
 }

@@ -14,28 +14,11 @@ namespace gestionecentralino.Db
     public class DbSerializer: ICentralinoLineConsumer
     {
         private readonly ILog _log;
-        private readonly SqlServerDbContext _db;
+        private readonly CentralinoDbContext _db;
 
-        public static DbSerializer Of(DbConfiguration config)
+        public DbSerializer(DbConfiguration config)
         {
-            //CentralinoDbContext dbContext = null;
-            //switch (config.Db)
-            //{
-            //    case DbEnum.MySql:
-            //        dbContext = new MySqlDbContext(config.ConnectionString);
-            //        break;
-
-            //    case DbEnum.SqlServer:
-            //        dbContext = new SqlServerDbContext(config.ConnectionString);
-            //        break;
-            //}
-
-            return new DbSerializer(new SqlServerDbContext(config.ConnectionString));
-        }
-
-        private DbSerializer(SqlServerDbContext db)
-        {
-            _db = db;
+            _db = new CentralinoDbContext(config);
             _log = LogManager.GetLogger(GetType());
         }
 
