@@ -13,6 +13,7 @@ namespace gestionecentralino.Core.Lines
         public ITargetNumber TargetNumber => ExternalNumber;
 
         public IncomingCall(
+            string originalLine, 
             DateTime dateTime,
             InternalNumber internalNumber,
             IncomingNumber externalNumber,
@@ -21,7 +22,7 @@ namespace gestionecentralino.Core.Lines
             Duration duration,
             Cost cost)
         {
-            CallData = new CallData(dateTime, internalNumber, coCode, cdCode, duration, cost);
+            CallData = new CallData(originalLine, dateTime, internalNumber, coCode, cdCode, duration, cost);
             ExternalNumber = externalNumber;
         }
 

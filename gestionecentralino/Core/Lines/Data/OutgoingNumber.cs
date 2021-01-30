@@ -10,6 +10,7 @@
         }
 
         public ICallLine CreateCall(CallData callData) => CallSource.CreateCall(this, new OutgoingCall(
+            callData.OriginalLine,
             callData.DateTime,
             callData.InternalNumber,
             this,

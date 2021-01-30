@@ -18,6 +18,7 @@ namespace gestionecentralino.Tests.Unit
                 new object[] { 
                     "07/12/20 11:00    401 05 <I>234               00:00'12 EU00000.00               ", 
                     new InternalCall(new IncomingCall(
+                        "07/12/20 11:00    401 05 <I>234               00:00'12 EU00000.00               ",
                         new DateTime(2020, 12, 7, 11, 0, 0), 
                         new InternalNumber("401"),
                         new IncomingNumber("234"),
@@ -30,6 +31,7 @@ namespace gestionecentralino.Tests.Unit
                 new object[] {
                     "07/12/20 11:22    401 05 234                  00:00'00 EU10000.00            NA ",
                     new InternalCall(new OutgoingCall(
+                        "07/12/20 11:22    401 05 234                  00:00'00 EU10000.00            NA ",
                         new DateTime(2020, 12, 7, 11, 22, 0),
                         new InternalNumber("401"),
                         new OutgoingNumber("234"),
@@ -42,6 +44,7 @@ namespace gestionecentralino.Tests.Unit
                 new object[] {
                     "07/12/20 11:18    405 21 <I>0364591759        00:00'33 EU00200.00               ",
                     new ExternalCall(new IncomingCall(
+                        "07/12/20 11:22    401 05 234                  00:00'00 EU10000.00            NA ",
                         new DateTime(2020, 12, 7, 11, 18, 0),
                         new InternalNumber("405"),
                         new IncomingNumber("0364591759"),
@@ -54,6 +57,7 @@ namespace gestionecentralino.Tests.Unit
                 new object[] {
                     "07/12/20 11:18    405 21 0364591759           00:00'33 EU00200.00               ",
                     new ExternalCall(new OutgoingCall(
+                        "07/12/20 11:22    401 05 234                  00:00'00 EU10000.00            NA ",
                         new DateTime(2020, 12, 7, 11, 18, 0),
                         new InternalNumber("405"),
                         new OutgoingNumber("0364591759"),

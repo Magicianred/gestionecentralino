@@ -26,6 +26,7 @@ namespace gestionecentralino.Core.Lines
                 return (dateTimeValue, costValue, durationValue).Apply((dateTime, cost, duration) => 
                     (ICentralinoLine)externalNumber
                     .CreateCall(new CallData(
+                        line,
                         dateTime,
                         internalNumber,
                         coCode,

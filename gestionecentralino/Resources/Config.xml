@@ -1,6 +1,6 @@
 ﻿<CentralinoConfiguration>
-  <!--<Host>192.168.0.102</Host>-->
-  <Host>127.0.0.1</Host>
+  <Host>192.168.0.102</Host>
+  <!--<Host>127.0.0.1</Host>-->
   <Port>2300</Port>
   <Username>SMDR</Username>
   <Password>SMDR</Password>

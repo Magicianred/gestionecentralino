@@ -6,6 +6,7 @@ namespace gestionecentralino.Core.Lines
 {
     public class CallData
     {
+        public string OriginalLine { get; }
         public DateTime DateTime { get; }
 
         public InternalNumber InternalNumber { get; }
@@ -20,6 +21,7 @@ namespace gestionecentralino.Core.Lines
         public Cost Cost { get; }
 
         public CallData(
+            string originalLine, 
             DateTime dateTime,
             InternalNumber internalNumber,
             CoCode coCode,
@@ -27,6 +29,7 @@ namespace gestionecentralino.Core.Lines
             Duration duration,
             Cost cost)
         {
+            OriginalLine = originalLine;
             DateTime = dateTime;
             InternalNumber = internalNumber;
             CoCode = coCode;

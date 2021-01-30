@@ -12,6 +12,7 @@
         public override string ToString() => $"{GetType().Name}: {Value}";
 
         public ICallLine CreateCall(CallData callData) => CallSource.CreateCall(this, new IncomingCall(
+            callData.OriginalLine,
             callData.DateTime,
             callData.InternalNumber,
             this,

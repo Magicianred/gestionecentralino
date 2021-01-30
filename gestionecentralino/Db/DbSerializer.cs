@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using gestionecentralino.Core;
 using gestionecentralino.Core.Lines;
@@ -116,7 +118,9 @@ namespace gestionecentralino.Db
                 Duration = callData.Duration.Value,
                 CdCode = callData.CdCode.Map(code => code.Value).IfNone(() => string.Empty),
                 Incoming = incoming,
-                Sede = _sede
+                Sede = _sede,
+                OriginalLine = callData.OriginalLine,
+                Hash = GetHash(SHA256.Create(), callData.OriginalLine)
             };
         }
 
@@ -142,6 +146,17 @@ namespace gestionecentralino.Db
                 _log.Info($"Processed line {centralinoLine}");
             }
             WriteAll();
+        }
+
+        private string GetHash(HashAlgorithm hashAlgorithm, string input)
+        {
+            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+            var sBuilder = new StringBuilder();
+            foreach (var t in data)
+            {
+                sBuilder.Append(t.ToString("x2"));
+            }
+            return sBuilder.ToString();
         }
     }
 }
