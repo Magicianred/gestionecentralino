@@ -10,5 +10,6 @@ namespace gestionecentralino.Db
     {
         public abstract DbSet<PhoneCallLine> Calls { get; set; }
         public CentralinoDbContext() : base() {}
+        public abstract void Migrate();
     }
 }

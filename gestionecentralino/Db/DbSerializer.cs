@@ -128,7 +128,7 @@ namespace gestionecentralino.Db
         }
         public void WriteAll()
         {
-            _db.Database.Migrate();
+            _db.Migrate();
             _db.SaveChanges();
             _db.Dispose();
         }

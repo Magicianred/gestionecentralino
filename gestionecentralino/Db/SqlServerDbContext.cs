@@ -7,6 +7,7 @@ namespace gestionecentralino.Db
     {
         private readonly DbConfiguration _configuration;
         public override DbSet<PhoneCallLine> Calls { get; set; }
+        public override void Migrate() => Database.Migrate();
 
         public SqlServerDbContext(): this(new DbConfiguration()){}
 
