@@ -4,6 +4,7 @@
   <Port>2300</Port>
   <Username>SMDR</Username>
   <Password>SMDR</Password>
+  <Sede>Darfo</Sede>
   <DbConfiguration>
     <ConnectionString>Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True</ConnectionString>
     <Db>SqlServer</Db>

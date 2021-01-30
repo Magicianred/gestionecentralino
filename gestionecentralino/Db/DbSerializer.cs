@@ -13,11 +13,13 @@ namespace gestionecentralino.Db
 {
     public class DbSerializer: ICentralinoLineConsumer
     {
+        private readonly SedeEnum _sede;
         private readonly ILog _log;
         private readonly CentralinoDbContext _db;
 
-        public DbSerializer(DbConfiguration config)
+        public DbSerializer(DbConfiguration config, SedeEnum sede)
         {
+            _sede = sede;
             _db = new CentralinoDbContext(config);
             _log = LogManager.GetLogger(GetType());
         }
@@ -91,7 +93,8 @@ namespace gestionecentralino.Db
                 DateTime = callData.DateTime,
                 Duration = callData.Duration.Value,
                 CdCode = callData.CdCode.Map(code => code.Value).IfNone(() => string.Empty),
-                Incoming = incoming
+                Incoming = incoming,
+                Sede = _sede
             };
         }
 

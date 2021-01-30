@@ -55,7 +55,7 @@ namespace gestionecentralino
         {
             try
             {
-                log.Info($"Configuration: {centralinoConfiguration.ToString()}");
+                log.Info($"Configuration: {centralinoConfiguration}");
 
                 var allLines = ReadFromCentralino(centralinoReader, log, centralinoConfiguration);
                 WriteIntoTheStorage(log, centralinoConfiguration, allLines);
@@ -74,7 +74,7 @@ namespace gestionecentralino
 
             (IEnumerable<Seq<Error>> errors, IEnumerable<ICentralinoLine> lines) = allLines.Lines.Partition();
 
-            DbSerializer dbSerializer = new DbSerializer(centralinoConfiguration.DbConfiguration);
+            DbSerializer dbSerializer = new DbSerializer(centralinoConfiguration.DbConfiguration, centralinoConfiguration.Sede);
             dbSerializer.WriteAll(lines);
 
             foreach (Seq<Error> error in errors)

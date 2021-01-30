@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using gestionecentralino.Core;
 
 namespace gestionecentralino.Db
 {
@@ -32,5 +33,8 @@ namespace gestionecentralino.Db
 
         [Required]
         public bool Incoming { get; set; }
+
+        [Required]
+        public SedeEnum Sede { get; set; }
     }
 }

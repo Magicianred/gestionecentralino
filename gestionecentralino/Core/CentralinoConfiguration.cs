@@ -24,8 +24,10 @@ namespace gestionecentralino.Core
             Password = password;
             DbConfiguration = new DbConfiguration();
             Show = false;
+            Sede = SedeEnum.Darfo;
         }
 
+        public SedeEnum Sede { get; set; }
         public string Host { get; set; }
         public int Port { get; set; }
         public string Username { get; set; }
@@ -63,8 +65,13 @@ namespace gestionecentralino.Core
                     .Add("P|port=", $"porta del centralino server. Default {cfg.Port}", v => cfg.Port = ToInt(v))
                     .Add("u|username=", $"username. Default {cfg.Username}", v => cfg.Username = v)
                     .Add("p|password=", $"password. Default {cfg.Password}", v => cfg.Password = v)
+                    .Add("s|sede=", $"sede di riferimento. Default {cfg.Sede}", v =>
+                    {
+                        Enum.TryParse(v, ignoreCase: true, out SedeEnum sede);
+                        cfg.Sede = sede;
+                    })
 
-                    .Add("db=", $"db to use. Choose between {DbEnum.MySql}|{DbEnum.SqlServer} .Default {cfg.DbConfiguration.Db}", v =>
+                    .Add("db=", $"db in uso. Scegliere tra {DbEnum.MySql}|{DbEnum.SqlServer} .Default {cfg.DbConfiguration.Db}", v =>
                     {
                         Enum.TryParse(v, ignoreCase: true, out DbEnum dbType);
                         cfg.DbConfiguration.Db = dbType;
