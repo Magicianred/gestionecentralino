@@ -38,15 +38,9 @@ namespace gestionecentralino
 
         private static void FromConfigReadCentralinoAndWriteInStorage(string[] args, ILog log)
         {
-            var configurationMaybe = CentralinoConfiguration
+            CentralinoConfiguration
                 .FromCommanLine(args)
-                .ToEither(Error.New("Help has been shown"));
-            var centralinoReaderMaybe = configurationMaybe.Bind(CentralinoReader.Of);
-
-            (from configuration in configurationMaybe
-             from centralinoReader in centralinoReaderMaybe
-             select ReadFromCentralinoAndWrite(centralinoReader, log, configuration))
-                .IfLeft(error => log.Error($"There is an error in the configuration: {error.Message}"));
+                .Map(configuration => ReadFromCentralinoAndWrite(new CentralinoReader(configuration), log, configuration));
         }
 
         private static ILog ConfigureLogging()

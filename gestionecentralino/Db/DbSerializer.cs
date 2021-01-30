@@ -18,7 +18,7 @@ namespace gestionecentralino.Db
 
         public DbSerializer(DbConfiguration configuration)
         {
-            _db = new CentralinoDbContext(configuration.ConnectionString);
+            _db = new CentralinoDbContext(configuration);
             _log = LogManager.GetLogger(GetType());
         }
 

@@ -23,14 +23,11 @@ namespace gestionecentralino.Tests.Acceptance
             const int port = 2300;
             using Task<OpenCentralinoMock> centralino = new CentralinoMockServer(Host, port, _serverSourceFile).StartServer();
 
-            var reader = CentralinoReader.Of(
-                new CentralinoConfiguration(Host, port, "SMDR", "SMDR"));
-            reader.ShouldBeRight(centralinoReader =>
-            {;
-                var readLinesTask = centralinoReader.ReadAllLines(); readLinesTask.Wait();
-                var actualLines = readLinesTask.Result;
-                Assert.Equal(CentralinoLines.Parse(_expectedLines), actualLines);
-            });
+            var reader = new CentralinoReader(new CentralinoConfiguration(Host, port, "SMDR", "SMDR"));
+
+            var readLinesTask = reader.ReadAllLines(); readLinesTask.Wait();
+            var actualLines = readLinesTask.Result;
+            Assert.Equal(CentralinoLines.Parse(_expectedLines), actualLines);
                 
             await centralino;
         }
@@ -41,15 +38,12 @@ namespace gestionecentralino.Tests.Acceptance
             const int port = 2400;
             using Task<OpenCentralinoMock> centralino = new CentralinoMockServer(Host, port, _serverSourceFile).StartServer();
 
-            var reader = CentralinoReader.Of(
-                new CentralinoConfiguration(Host, port, "SMDR", "SMDR"));
-            reader.ShouldBeRight(centralinoReader =>
-            {
-                var readLinesTask = centralinoReader.ReadLines(2); readLinesTask.Wait();
-                var actualLines = readLinesTask.Result;
-                var expected = CentralinoLines.Parse(_expectedLines.Take(2).ToArray());
-                Assert.Equal(expected, actualLines);
-            });
+            var reader = new CentralinoReader(new CentralinoConfiguration(Host, port, "SMDR", "SMDR"));
+
+            var readLinesTask = reader.ReadLines(2); readLinesTask.Wait();
+            var actualLines = readLinesTask.Result;
+            var expected = CentralinoLines.Parse(_expectedLines.Take(2).ToArray());
+            Assert.Equal(expected, actualLines);
 
             await centralino;
         }

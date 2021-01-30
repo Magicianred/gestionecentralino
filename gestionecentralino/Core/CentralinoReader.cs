@@ -14,17 +14,17 @@ namespace gestionecentralino.Core
         private readonly CentralinoHost _host;
         private readonly UserAccount _account;
 
-        private CentralinoReader(CentralinoHost host, UserAccount account)
+        public CentralinoReader(CentralinoHost host, UserAccount account)
         {
             _host = host;
             _account = account;
         }
 
-        public static Either<Error, CentralinoReader> Of(CentralinoConfiguration config) => 
-            CentralinoHost.Of(config.Host, config.Port)
-                .Map(centralinoHost => new CentralinoReader(
-                    centralinoHost, 
-                    new UserAccount(config.Username, config.Password)));
+        public CentralinoReader(CentralinoConfiguration configuration)
+        {
+            _host = new CentralinoHost(configuration.Host, configuration.Port);
+            _account = new UserAccount(configuration.Username, configuration.Password);
+        }
 
         public async Task<CentralinoLines> ReadAllLines() => await ReadLines(0);
 

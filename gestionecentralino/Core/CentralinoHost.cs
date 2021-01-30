@@ -15,7 +15,5 @@ namespace gestionecentralino.Core
             Host = host;
             Port = port;
         }
-
-        public static Either<Error, CentralinoHost> Of(string host, int port) => new CentralinoHost(host, port);
     }
 }

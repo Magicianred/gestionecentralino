@@ -22,7 +22,7 @@ namespace gestionecentralino.Db
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration.ConnectionString);
+            optionsBuilder.UseMySQL(_configuration.ConnectionString);
         }
     }
 }

@@ -5,6 +5,7 @@
   <Username>SMDR</Username>
   <Password>SMDR</Password>
   <DbConfiguration>
-    <ConnectionString>Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True</ConnectionString>
+    <!--<ConnectionString>Data Source=(LocalDB)\gestioneriparazioni;Initial Catalog=centralino;Integrated Security=True</ConnectionString>-->
+    <ConnectionString>server=localhost;port=3306;database=centralino;uid=root;password=password</ConnectionString>
   </DbConfiguration>
 </CentralinoConfiguration>
