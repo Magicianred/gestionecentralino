@@ -2,7 +2,8 @@
   "profiles": {
     "gestionecentralino": {
       "commandName": "Project",
-      "commandLineArgs": "--cfg Resources\\Config.xml"
+      "commandLineArgs": "--cfg Resources\\Config.xml",
+      "workingDirectory": "D:\\workspace\\gestionecentralino\\gestionecentralino"
     }
   }
 }

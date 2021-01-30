@@ -17,10 +17,32 @@ namespace gestionecentralino.Db
         private readonly ILog _log;
         private readonly CentralinoDbContext _db;
 
-        public DbSerializer(DbConfiguration config, SedeEnum sede)
+        public static DbSerializer From(CentralinoConfiguration configuration)
+        {
+            CentralinoDbContext db;
+            switch (configuration.DbConfiguration.Db)
+            {
+                case DbEnum.SqlServer:
+                    db = new SqlServerDbContext(configuration.DbConfiguration);
+                    break;
+
+                case DbEnum.MySql:
+                    db = new MySqlDbContext(configuration.DbConfiguration);
+                    break;
+
+
+                default:
+                    db = new SqlServerDbContext(configuration.DbConfiguration);
+                    break;
+            }
+
+            return new DbSerializer(db, configuration.Sede);
+        }
+
+        private DbSerializer(CentralinoDbContext db, SedeEnum sede)
         {
             _sede = sede;
-            _db = new CentralinoDbContext(config);
+            _db = db;
             _log = LogManager.GetLogger(GetType());
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace gestionecentralino.Migrations
+namespace gestionecentralino.Migrations.SqlServer
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,8 @@ namespace gestionecentralino.Migrations
                     CdCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     Cost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Incoming = table.Column<bool>(type: "bit", nullable: false)
+                    Incoming = table.Column<bool>(type: "bit", nullable: false),
+                    Sede = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
